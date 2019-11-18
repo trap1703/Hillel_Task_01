@@ -11,14 +11,20 @@ services:
      volumes:
        - "./conf.d:/etc/mysql/conf.d:ro"
    app1:
-     image: nfrankel/spring-petclinic
+#     image: nfrankel/spring-petclinic
+     build:
+       context: .
+       dockerfile: Dockerfile.dc
      container_name: appcont
-     ports: 
+     ports:
        - "8080:8080"
-     environment: 
+     environment:
        my-db: mysql
        SPRING_PROFILES_ACTIVE: mysql
        SPRING_DATASOURCE_URL: jdbc:mysql://mysql/petclinic
+       MYSQL_ROOT_PASSWORD: petclinic
+       MYSQL_DATABASE: petclinic
      restart: always
      links:
        - mysql
+
